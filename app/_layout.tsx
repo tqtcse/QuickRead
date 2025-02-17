@@ -1,39 +1,32 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+// // AppLayout.tsx
+// import React from 'react';
+// import { View, Text, StyleSheet } from 'react-native';
+// import { Slot } from 'expo-router';  // expo-router giúp render trang con vào đây
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// const AppLayout: React.FC = () => {
+//   return (
+//     <View style={{ flex: 1 }}>
+//       {/* Thanh tiêu đề */}
+//       <View style={styles.topBar}>
+//         <Text style={styles.text}>Ứng dụng của tui</Text>
+//       </View>
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+//       {/* Phần nội dung của các trang con */}
+//       <Slot /> {/* Render các trang con ở đây */}
+//     </View>
+//   );
+// };
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+// const styles = StyleSheet.create({
+//   topBar: {
+//     padding: 10,
+//     backgroundColor: '#4CAF50',
+//     alignItems: 'center',
+//   },
+//   text: {
+//     color: '#fff',
+//     fontSize: 20,
+//   },
+// });
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
-}
+// export default AppLayout;
