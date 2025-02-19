@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '../../styles/style'
 import TopBar from '@/components/TopBar';
+import { Link } from 'expo-router'
 
 const categories = [
   { name: 'Công nghệ', screen: '/technology' },
@@ -16,7 +17,7 @@ const Home: React.FC = () => {
 
   return (
     <View>
-      <TopBar />  {/* Sử dụng TopBar ở đây */}
+      <Link href={"/explore"}> Explore</Link>
 
       {categories.map((category, index) => (
         <TouchableOpacity

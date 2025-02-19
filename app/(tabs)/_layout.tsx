@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Slot } from 'expo-router';  // expo-router giúp render trang con vào đây
 
-const AppLayout: React.FC = () => {
+const AppsLayout: React.FC = () => {
   return (
     <View style={{ flex: 1 }}>
       {/* Thanh tiêu đề */}
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppLayout;
+export default AppsLayout;
