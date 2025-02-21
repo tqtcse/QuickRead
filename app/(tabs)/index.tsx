@@ -8,8 +8,8 @@ import { Link } from 'expo-router'
 const categories = [
   { name: 'Công nghệ', screen: '/technology' },
   { name: 'Giải trí', screen: '/entertainment' },
-  { name: 'Thể thao', screen: '/sports' },
-  { name: 'Âm nhạc', screen: '/music' },
+  // { name: 'Thể thao', screen: '/sports' },
+  // { name: 'Âm nhạc', screen: '/music' },
 ] as const;
 
 const Home: React.FC = () => {
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   return (
     <View>
-      <Link href={"/explore"}> Explore</Link>
+      {/* <Link href={"/explore"}> Explore</Link> */}
 
       {categories.map((category, index) => (
         <TouchableOpacity
