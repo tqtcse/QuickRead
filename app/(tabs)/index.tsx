@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 
 
 const books = [
-  { id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', cover: 'https://source.unsplash.com/100x150/?book' },
+  { id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', cover: 'https://images.squarespace-cdn.com/content/v1/624da83e75ca872f189ffa42/1660938091838-OPRIN3NA7SEHYSW7VSDH/image001.jpg' },
   { id: '2', title: 'To Kill a Mockingbird', author: 'Harper Lee', cover: 'https://source.unsplash.com/100x150/?novel' },
   { id: '3', title: '1984', author: 'George Orwell', cover: 'https://source.unsplash.com/100x150/?dystopian' },
   { id: '4', title: 'Moby-Dick', author: 'Herman Melville', cover: 'https://source.unsplash.com/100x150/?ocean' },
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
         data={books}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.bookItem} onPress={() => router.push(`/book/${item.id}`)}>
+          <TouchableOpacity style={styles.bookItem} onPress={() => router.push({ pathname: "/book/[id]", params: { id: item.id } })}>
             <Image source={{ uri: item.cover }} style={styles.bookCover} />
             <View style={styles.bookInfo}>
               <Text style={styles.bookTitle}>{item.title}</Text>
