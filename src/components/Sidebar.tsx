@@ -1,9 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { logout } from '../services/authApi';
 
 interface SidebarProps {
     isVisible: boolean;
     onClose: () => void;
+}
+
+const handleLogout = async () => {
+    const data = await logout();
+    console.log(data)
+
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
@@ -38,10 +46,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
                     <TouchableOpacity style={styles.closeButton} onPress={onClose}>
                         <Text style={styles.closeText}>✕</Text>
                     </TouchableOpacity>
-                    <Text style={styles.menuItem}>🏠 Home</Text>
-                    <Text style={styles.menuItem}>🔍 Search</Text>
-                    <Text style={styles.menuItem}>📚 My Library</Text>
-                    <Text style={styles.menuItem}>👤 Profile</Text>
+                    <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
+                        <Icon name="log-out-outline" size={24} color="black" />
+                        <Text style={styles.menuItem}> Logout</Text>
+                    </TouchableOpacity>
+
                 </Animated.View>
             </View>
         )
@@ -71,7 +80,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: 250,
         height: '100%',
-        backgroundColor: '#333',
+        backgroundColor: 'white',
         padding: 20,
         justifyContent: 'center',
     },
@@ -82,11 +91,14 @@ const styles = StyleSheet.create({
     },
     closeText: {
         fontSize: 20,
-        color: '#fff',
+        color: 'rgba(92, 90, 90, 0.94)',
     },
     menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
         fontSize: 18,
-        color: '#fff',
+        color: 'rgba(92, 90, 90, 0.94)',
+        fontWeight: 'bold',
         marginVertical: 10,
     },
 });
