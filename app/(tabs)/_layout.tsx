@@ -27,7 +27,10 @@ const AppsLayout: React.FC = () => {
       <View style={styles.bottomBar}>
         <Link href={"/"} >
           <View style={styles.iconContainer}>
-            <Icon name="home" size={24} color={pathname === "/" ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
+            <Icon name="home" size={24} color={pathname === "/" || pathname.startsWith("/book/")
+              ? "#rgba(58, 207, 252, 0.94)"
+              : "#rgba(92, 90, 90, 0.94)"
+            } />
             <Text style={[styles.text, pathname === "/" && styles.activeText]}>Home</Text>
           </View>
         </Link>
@@ -81,6 +84,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1, // Độ mờ của bóng
     shadowRadius: 3, // Độ lan của bóng
     elevation: 3,
+    borderBottomWidth: 1, // Viền mỏng
+    borderBottomColor: '#ddd',
   },
   bottomBar: {
     flexDirection: 'row',
