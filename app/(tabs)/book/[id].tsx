@@ -4,11 +4,12 @@ import { useLocalSearchParams } from "expo-router";
 import WantToReadButton from "@/src/components/Button/WantToReadButton";
 import CommentItem from "@/src/components/CommentItem";
 import { useRouter } from 'expo-router';
+import ExpandableText from "@/src/components/ExpandText";
 // Danh sách sách giả lập (có thể thay bằng API)
 
 interface Comment {
-    user: string;  // Người đánh giá
-    text: string;  // Nội dung bình luận
+    user: string;
+    text: string;
     date: string;
     like: number;
     rating: number;
@@ -54,7 +55,7 @@ Dòng nước đưa nó đến một vùng đất mới, nơi nó lắng xuống
             2: { count: 3, comments: [{ user: "Alice", text: "Could be better", date: "2025-04-03T10:00:00Z", like: 100, rating: 2 }] },
             3: { count: 1, comments: [{ user: "Bob", text: "Average", date: "2025-04-01T08:30:00Z", like: 100, rating: 3 }] },
             4: { count: 1, comments: [{ user: "Charlie", text: "Liked it", date: "2025-04-01T08:30:00Z", like: 100, rating: 4 }] },
-            5: { count: 5, comments: [{ user: "David", text: "Amazing book!", date: "2025-04-01T08:30:00Z", like: 100, rating: 5 }, { user: "Eva", text: "Loved it! Dòng nước đưa nó đến một vùng đất mới, nơi nó lắng xuống một con sông hiền hòa. Ở đó, nó gặp những hạt cát khác, những hòn sỏi lấp lánh, n ", date: "2025-04-03T18:00:00Z", like: 9, rating: 5 }] }
+            5: { count: 5, comments: [{ user: "David", text: "Amazing book!", date: "2025-04-01T08:30:00Z", like: 100, rating: 5 }, { user: "Eva", text: "Loved it! Dòng nước đưa nó đến một vùng , n ", date: "2025-04-03T18:00:00Z", like: 9, rating: 5 }] }
         }
     },
 
@@ -77,18 +78,15 @@ const BookDetail: React.FC = () => {
     const getAllComments = (rateDetail: any) => {
         let allComments: any[] = [];
 
-        // Lặp qua tất cả các rate (1, 2, 3, 4, 5)
         for (const rate in rateDetail) {
             if (rateDetail[rate]?.comments) {
                 allComments = [...allComments, ...rateDetail[rate].comments];
             }
         }
 
-        // Sắp xếp comment theo thời gian (timestamp), từ mới nhất đến cũ nhất
         allComments.sort((a, b) => convertToTimestamp(b.date) - convertToTimestamp(a.date));
         return allComments;
     };
-    // Tìm sách theo ID
 
     const book = books[0]; // lấy sách đầu tiên trong danh sách
     const sortedComments = getAllComments(book.rateDetail);
@@ -132,12 +130,15 @@ const BookDetail: React.FC = () => {
                 </View>
                 <Text style={{ marginVertical: 10 }}>BOOK DESCRIPTION</Text>
                 <View style={styles.underline} />
-                <Text style={styles.description}>{book.description}</Text>
+                <Text style={styles.description}>
+                    <ExpandableText text={book.description} numberOfLines={4} />
+
+                </Text>
 
                 <View style={styles.rateDetailContainer}>
 
                     <TouchableOpacity onPress={handlePress} >
-                        <Text style={{ marginTop: 10, fontWeight: 'bold' }}>Community Review</Text>
+                        <Text style={{ marginTop: 10, fontWeight: 'bold' }}>Community Reviews</Text>
                         {[5, 4, 3, 2, 1].map((rating) => {
                             const percentage = calculatePercentage(book.rateDetail[rating].count || 0);
                             return (

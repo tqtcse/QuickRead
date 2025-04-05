@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Slot, Link, usePathname } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // Import icon
 import Sidebar from '../../src/components/Sidebar'
-
+import BackButton from '@/src/components/Button/BackButton';
 
 const AppsLayout: React.FC = () => {
   const pathname = usePathname();
@@ -12,9 +12,15 @@ const AppsLayout: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <TouchableOpacity style={styles.iconButton} onPress={() => setSidebarVisible(true)}>
-          <Icon name="menu" size={28} color="rgba(92, 90, 90, 0.94)" />
-        </TouchableOpacity>
+        {pathname === '/' || pathname === '/search' || pathname === '/my_library' || pathname === '/profile' ? (
+          <TouchableOpacity style={styles.iconButton} onPress={() => setSidebarVisible(true)}>
+            <Icon name="menu" size={28} color="rgba(92, 90, 90, 0.94)" />
+
+          </TouchableOpacity>
+        ) : (
+          <BackButton />
+        )}
+
         <Text style={styles.title}>QuickRead</Text>
         <TouchableOpacity style={styles.iconButton} onPress={() => console.log("Notification pressed")}>
           <Icon name="notifications" size={28} color="rgba(92, 90, 90, 0.94)" />
@@ -54,7 +60,7 @@ const AppsLayout: React.FC = () => {
         </Link>
       </View>
       {isSidebarVisible && <Sidebar isVisible={isSidebarVisible} onClose={() => setSidebarVisible(false)} />}
-    </View>
+    </View >
 
 
   );
