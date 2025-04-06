@@ -5,6 +5,7 @@ import WantToReadButton from "@/src/components/Button/WantToReadButton";
 import CommentItem from "@/src/components/CommentItem";
 import { useRouter } from 'expo-router';
 import ExpandableText from "@/src/components/ExpandText";
+import ExpandComment from "@/src/components/ExpandComment";
 // Danh sách sách giả lập (có thể thay bằng API)
 
 interface Comment {
@@ -88,11 +89,12 @@ const BookDetail: React.FC = () => {
         return allComments;
     };
 
-    const book = books[0]; // lấy sách đầu tiên trong danh sách
+    const book = books[0];
     const sortedComments = getAllComments(book.rateDetail);
     const handlePress = () => {
-        router.push('/book/reviewDetail');
+        router.push({ pathname: "/book/reviewDetail/[id]", params: { id: 1 } })
     }
+    const top5comments = sortedComments.slice(0, 5);
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.container}>
@@ -160,10 +162,14 @@ const BookDetail: React.FC = () => {
                 </View >
                 <View style={styles.parentCommentContainer} >
                     <FlatList
-                        data={sortedComments}
+                        data={top5comments}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => <CommentItem item={item} />}
                     />
+                    <ExpandComment />
+                </View>
+                <View>
+
                 </View>
             </View>
         </ScrollView>
