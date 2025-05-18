@@ -92,7 +92,7 @@ const BookDetail: React.FC = () => {
     const book = books[0];
     const sortedComments = getAllComments(book.rateDetail);
     const handlePress = () => {
-        router.push({ pathname: "/book/reviewDetail/[id]", params: { id: 1 } })
+        router.push({ pathname: "/home/book/reviewDetail/[id]", params: { id: 1 } })
     }
     const top5comments = sortedComments.slice(0, 5);
     return (

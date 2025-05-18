@@ -4,63 +4,72 @@ import { Slot, Link, usePathname } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // Import icon
 import Sidebar from '../../src/components/Sidebar'
 import BackButton from '@/src/components/Button/BackButton';
+import { AuthProvider } from '../context/auth-context';
 
 const AppsLayout: React.FC = () => {
   const pathname = usePathname();
   const [isSidebarVisible, setSidebarVisible] = useState(false);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
-        {pathname === '/' || pathname === '/search' || pathname === '/my_library' || pathname === '/profile' ? (
-          <TouchableOpacity style={styles.iconButton} onPress={() => setSidebarVisible(true)}>
-            <Icon name="menu" size={28} color="rgba(92, 90, 90, 0.94)" />
+    <AuthProvider>
+      <View style={styles.container}>
+        <View style={styles.topBar}>
+          {pathname === '/' || pathname === '/home/home' || pathname === '/search/search' || pathname === '/library/my_library' ||
+            pathname === '/profile/profile' || pathname === '/(auth)/login' ? (
+            <TouchableOpacity style={styles.iconButton} onPress={() => setSidebarVisible(true)}>
+              <Icon name="menu" size={28} color="rgba(92, 90, 90, 0.94)" />
 
+            </TouchableOpacity>
+          ) : (
+            <BackButton />
+          )}
+
+          <Text style={styles.title}>QuickRead</Text>
+          <TouchableOpacity style={styles.iconButton} onPress={() => console.log("Notification pressed")}>
+            <Icon name="notifications" size={28} color="rgba(92, 90, 90, 0.94)" />
           </TouchableOpacity>
-        ) : (
-          <BackButton />
-        )}
+        </View>
 
-        <Text style={styles.title}>QuickRead</Text>
-        <TouchableOpacity style={styles.iconButton} onPress={() => console.log("Notification pressed")}>
-          <Icon name="notifications" size={28} color="rgba(92, 90, 90, 0.94)" />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.content}>
+          <Slot />
+        </View>
+        <View style={styles.bottomBar}>
+          <Link href={"/"} >
+            <View style={styles.iconContainer}>
+              <Icon name="home" size={24} color={pathname === "/" || pathname.startsWith("/home/")
+                ? "#rgba(58, 207, 252, 0.94)"
+                : "#rgba(92, 90, 90, 0.94)"
+              } />
+              <Text style={[styles.text, pathname === "/" && styles.activeText]}>Home</Text>
+            </View>
+          </Link>
 
-      <View style={styles.content}>
-        <Slot />
-      </View>
-      <View style={styles.bottomBar}>
-        <Link href={"/"} >
-          <View style={styles.iconContainer}>
-            <Icon name="home" size={24} color={pathname === "/" || pathname.startsWith("/book/")
-              ? "#rgba(58, 207, 252, 0.94)"
-              : "#rgba(92, 90, 90, 0.94)"
-            } />
-            <Text style={[styles.text, pathname === "/" && styles.activeText]}>Home</Text>
-          </View>
-        </Link>
-        <Link href={"/search"} >
-          <View style={styles.iconContainer}>
-            <Icon name="search" size={24} color={pathname === "/search" ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
-            <Text style={[styles.text, pathname === "/search" && styles.activeText]}>Search</Text>
-          </View>
-        </Link>
-        <Link href={"/my_library"} >
-          <View style={styles.iconContainer}>
-            <Icon name="library-books" size={24} color={pathname === "/my_library" ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
-            <Text style={[styles.text, pathname === "/my_library" && styles.activeText]}>My Library</Text>
-          </View>
-        </Link>
-        <Link href={"/profile"} >
-          <View style={styles.iconContainer}>
-            <Icon name="person" size={24} color={pathname === "/profile" ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
-            <Text style={[styles.text, pathname === "/profile" && styles.activeText]}>Profile</Text>
-          </View>
-        </Link>
-      </View>
-      {isSidebarVisible && <Sidebar isVisible={isSidebarVisible} onClose={() => setSidebarVisible(false)} />}
-    </View >
+          <Link href={"/search/search"} >
+            <View style={styles.iconContainer}>
+              <Icon name="search" size={24} color={pathname === "/search/search" ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
+              <Text style={[styles.text, pathname === "/search/search" && styles.activeText]}>Search</Text>
+            </View>
+          </Link>
+
+          <Link href={"/library/my_library"} >
+            <View style={styles.iconContainer}>
+              <Icon name="library-books" size={24} color={pathname.startsWith("/library/") ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
+              <Text style={[styles.text, pathname === "/my_library" && styles.activeText]}>My Library</Text>
+            </View>
+          </Link>
+
+          <Link href={"/profile/profile"} >
+            <View style={styles.iconContainer}>
+              <Icon name="person" size={24} color={pathname.startsWith("/profile/") ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
+              <Text style={[styles.text, pathname === "/profile" && styles.activeText]}>Profile</Text>
+            </View>
+          </Link>
+
+        </View>
+        {isSidebarVisible && <Sidebar isVisible={isSidebarVisible} onClose={() => setSidebarVisible(false)} />}
+      </View >
+    </AuthProvider>
+
 
 
   );

@@ -1,22 +1,27 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { logout } from '../services/authApi';
+// import { logout } from '../services/authApi';
+import { useAuth } from '@/app/context/auth-context';
 
 interface SidebarProps {
     isVisible: boolean;
     onClose: () => void;
 }
 
-const handleLogout = async () => {
-    const data = await logout();
-    console.log(data)
 
-}
+
+
 
 const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
+    const { logout } = useAuth();
     const slideAnim = useRef(new Animated.Value(-250)).current;
     const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    const handleLogout = async () => {
+        logout();
+
+    }
 
     useEffect(() => {
         Animated.parallel([
