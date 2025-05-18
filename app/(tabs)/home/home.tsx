@@ -4,6 +4,8 @@ import { useRouter } from 'expo-router';
 import WantToReadButton from '../../../src/components/Button/WantToReadButton';
 import { getAllBooks } from '../../../src/services/bookApi';
 import BookItem from '../../../src/components/BookItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
 
 type Book = {
     id: string;
@@ -20,6 +22,8 @@ type Book = {
 
 
 const HomeScreen: React.FC = () => {
+    const token = useSelector((state: RootState) => state.user.token);
+    console.log(token);
     const router = useRouter();
     const [books, setBooks] = useState<Book[]>([]);
     const [booksSectionData, setBooksSectionData] = useState<{ title: string, data: Book[] }[]>([]);

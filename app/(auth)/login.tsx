@@ -9,14 +9,25 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/src/store';
+import { login } from '@/src/store/userActions';
 
 const Login = () => {
-
+    const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
 
+    const handleLogin = () => {
+        const email = 'test@gmail.com';
+        const password = '1234567890';
+
+        dispatch(login(email, password));
+
+        router.push('/(tabs)/home/home')
+    }
 
     return (
         <View style={styles.container}>
@@ -52,7 +63,7 @@ const Login = () => {
 
 
 
-            <TouchableOpacity style={styles.button} onPress={() => router.push('/(tabs)/home/home')}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>

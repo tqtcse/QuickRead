@@ -40,28 +40,28 @@ const AppsLayout: React.FC = () => {
                 ? "#rgba(58, 207, 252, 0.94)"
                 : "#rgba(92, 90, 90, 0.94)"
               } />
-              <Text style={[styles.text, pathname === "/" && styles.activeText]}>Home</Text>
+              <Text style={[styles.text, (pathname.startsWith("/home/") || pathname === "/") && styles.activeText]}>Home</Text>
             </View>
           </Link>
 
           <Link href={"/search/search"} >
             <View style={styles.iconContainer}>
               <Icon name="search" size={24} color={pathname === "/search/search" ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
-              <Text style={[styles.text, pathname === "/search/search" && styles.activeText]}>Search</Text>
+              <Text style={[styles.text, pathname.startsWith("/search/") && styles.activeText]}>Search</Text>
             </View>
           </Link>
 
           <Link href={"/library/my_library"} >
             <View style={styles.iconContainer}>
               <Icon name="library-books" size={24} color={pathname.startsWith("/library/") ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
-              <Text style={[styles.text, pathname === "/my_library" && styles.activeText]}>My Library</Text>
+              <Text style={[styles.text, pathname.startsWith("/library/") && styles.activeText]}>My Library</Text>
             </View>
           </Link>
 
           <Link href={"/profile/profile"} >
             <View style={styles.iconContainer}>
               <Icon name="person" size={24} color={pathname.startsWith("/profile/") ? "#rgba(58, 207, 252, 0.94)" : "#rgba(92, 90, 90, 0.94)"} />
-              <Text style={[styles.text, pathname === "/profile" && styles.activeText]}>Profile</Text>
+              <Text style={[styles.text, pathname.startsWith("/profile/") && styles.activeText]}>Profile</Text>
             </View>
           </Link>
 

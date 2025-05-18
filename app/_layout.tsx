@@ -2,8 +2,8 @@
 import { Slot } from 'expo-router';
 import { AuthProvider } from './context/auth-context';
 import { useEffect } from 'react';
-
-
+import { Provider } from 'react-redux';
+import store from '@/src/store';
 
 // useEffect(() => {
 //     console.log("as")
@@ -11,8 +11,11 @@ import { useEffect } from 'react';
 
 export default function Layout() {
     return (
-        <AuthProvider>
-            <Slot />
-        </AuthProvider>
+        <Provider store={store}>
+            <AuthProvider>
+                <Slot />
+            </AuthProvider>
+        </Provider>
+
     );
 }
