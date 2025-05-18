@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, SectionList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SectionList } from 'react-native';
 import { useRouter } from 'expo-router';
-import WantToReadButton from '../../../src/components/Button/WantToReadButton';
 import { getAllBooks } from '../../../src/services/bookApi';
 import BookItem from '../../../src/components/BookItem';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/src/store';
+import { RootState, AppDispatch } from '@/src/store';
+import { getBookMarked } from '@/src/store/userActions';
+import { useDispatch } from 'react-redux';
+import { login } from '@/src/store/userActions';
 
 type Book = {
     id: string;
@@ -19,15 +21,23 @@ type Book = {
     reviewAmount: number;
 };
 
-
+type BookMarked = {
+    id: string;
+    title: string;
+    author: string;
+}
 
 const HomeScreen: React.FC = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const token = useSelector((state: RootState) => state.user.token);
-    console.log(token);
+    console.log('token:', token);
+    const bookMarked = useSelector((state: RootState) => state.user.bookMarked);
+    const isLoaded = useSelector((state: RootState) => state.user.isBookMarkedLoaded);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const router = useRouter();
     const [books, setBooks] = useState<Book[]>([]);
     const [booksSectionData, setBooksSectionData] = useState<{ title: string, data: Book[] }[]>([]);
-
+    // const [bookMarked, setBookMarked] = useState<BookMarked[]>([]);
 
 
     const fetchBooks = async () => {
@@ -71,6 +81,24 @@ const HomeScreen: React.FC = () => {
     }, [])
 
 
+    useEffect(() => {
+        if (token) {
+            // const email = 'test@gmail.com';
+            // const password = '1234567890';
+
+            // dispatch(login(email, password));
+            dispatch(getBookMarked('1111'));
+            // const bookMarked = useSelector((state: RootState) => state.user.bookMarked);
+            // setBookMarked(bookMarked);
+
+        }
+
+    }, [dispatch])
+
+    if (!isLoaded) return <p>Đang tải dữ liệu đánh dấu...</p>;
+
+    console.log('bookMarked:', bookMarked);
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Recommended</Text>
@@ -94,6 +122,7 @@ const HomeScreen: React.FC = () => {
                 renderItem={({ item }) => (
                     <BookItem
                         item={item}
+                        isBookMarked={bookMarked?.some(book => book.id === item.id)}
                         onPress={() =>
                             router.push({
                                 pathname: '/home/book/[id]',

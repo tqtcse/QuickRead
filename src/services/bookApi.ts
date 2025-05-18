@@ -111,6 +111,14 @@ const booksData = [
     },
 ]
 
+const booksOfUser = [
+    {
+        "id": "ROM001",
+        "title": "Love in Paris",
+        "author": "Sophie Lane",
+    }
+]
+
 export const getAllBooks = async () => {
     try {
         // const response = await fetch('https://api.example.com/books');
@@ -121,3 +129,17 @@ export const getAllBooks = async () => {
         throw error;
     }
 }
+
+export const getBookByUserId = async (id: string) => {
+    try {
+        const id2 = id;
+        // const response = await fetch(`https://api.example.com/books/${id}`);
+        console.log('id2:', id2);
+        const data = booksOfUser;
+        return data;
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        throw error;
+    }
+}
+

@@ -18,9 +18,12 @@ type Book = {
 type Props = {
     item: Book;
     onPress: () => void;
+    isBookMarked: boolean;
 };
 
-const BookItem = React.memo(({ item, onPress }: Props) => (
+const BookItem = React.memo(({ item, onPress, isBookMarked }: Props) => (
+
+
     <TouchableOpacity style={styles.bookItem} onPress={onPress}>
         <Image source={{ uri: item.cover }} style={styles.bookCover} />
         <View style={styles.bookInfo}>
@@ -67,7 +70,7 @@ const BookItem = React.memo(({ item, onPress }: Props) => (
 
             {/* 📚 Nút muốn đọc */}
             <View style={styles.buttonContainer}>
-                <WantToReadButton />
+                <WantToReadButton isBookMarked={isBookMarked} />
             </View>
         </View>
     </TouchableOpacity>

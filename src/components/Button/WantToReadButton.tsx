@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const WantToReadButton = () => {
-    const [wantToRead, setWantToRead] = useState(false);
+const WantToReadButton = ({ isBookMarked }: { isBookMarked: boolean }) => {
+    const [wantToRead, setWantToRead] = useState(isBookMarked);
+
+    // Cập nhật state nếu prop thay đổi
+    useEffect(() => {
+        setWantToRead(isBookMarked);
+    }, [isBookMarked]);
+
+    const handlePress = () => {
+        setWantToRead((prev) => !prev);
+        // Bạn có thể gọi API hoặc dispatch Redux ở đây nếu muốn cập nhật server
+    };
 
     return (
         <TouchableOpacity
             style={[styles.button, wantToRead ? styles.buttonActive : {}]}
-            onPress={() => setWantToRead(!wantToRead)}
+            onPress={handlePress}
         >
             <Text style={styles.buttonText}>
                 {wantToRead ? 'Added' : 'Want to Read'}
