@@ -28,7 +28,7 @@ const booksData = [
         "category": "romance",
         "cover": "http://example.com/seasonsoflove.jpg",
         "description": "A tale of love through spring, summer, fall and winter.",
-        "rating": 4.3,
+        "rating": 3.3,
         "ratingAmount": 95,
         "reviewAmount": 38
     },
@@ -72,7 +72,7 @@ const booksData = [
         "category": "comics",
         "cover": "http://example.com/sunsetkisses.jpg",
         "description": "A summer romance that lingers long after the sun sets.",
-        "rating": 4.5,
+        "rating": 2.5,
         "ratingAmount": 150,
         "reviewAmount": 60
     },

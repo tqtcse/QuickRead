@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, SectionList 
 import { useRouter } from 'expo-router';
 import WantToReadButton from '../../../src/components/Button/WantToReadButton';
 import { getAllBooks } from '../../../src/services/bookApi';
-// Cập nhật danh sách sách với thể loại (category)
+import BookItem from '../../../src/components/BookItem';
 
 type Book = {
     id: string;
@@ -17,7 +17,6 @@ type Book = {
     reviewAmount: number;
 };
 
-// Nhóm sách theo thể loại
 
 
 const HomeScreen: React.FC = () => {
@@ -89,23 +88,15 @@ const HomeScreen: React.FC = () => {
                     </View>
                 )}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.bookItem} onPress={() => router.push({ pathname: "/home/book/[id]", params: { id: item.id } })}>
-                        <Image source={{ uri: item.cover }} style={styles.bookCover} />
-                        <View style={styles.bookInfo}>
-                            <Text style={styles.bookTitle}>{item.title}</Text>
-                            <Text style={styles.bookAuthor}>by {item.author}</Text>
-                            <View style={styles.ratingContainer}>
-                                {Array.from({ length: 5 }, (_, index) => (
-                                    <Text key={index} style={styles.star} >
-                                        {item.rating ? (index < item.rating ? '★' : '☆') : '☆'}
-                                    </Text>
-                                ))}
-                            </View>
-                            <View style={styles.buttonContainer}>
-                                <WantToReadButton />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
+                    <BookItem
+                        item={item}
+                        onPress={() =>
+                            router.push({
+                                pathname: '/home/book/[id]',
+                                params: { id: item.id },
+                            })
+                        }
+                    />
                 )}
             />
         </View>

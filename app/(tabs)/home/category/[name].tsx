@@ -1,10 +1,9 @@
-// app/home/category/[name].tsx
-
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getAllBooks } from '@/src/services/bookApi';
 import BookItem from '@/src/components/BookItem';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type Book = {
     id: string;
@@ -18,24 +17,28 @@ type Book = {
     reviewAmount: number;
 };
 
+const ratingOptions = [5, 4, 3, 2, 1];
+
 const CategoryScreen = () => {
-    const { name } = useLocalSearchParams(); // 👈 lấy param từ URL
+
+    const { name } = useLocalSearchParams();
     const router = useRouter();
     const [books, setBooks] = useState<Book[]>([]);
-
-
-    console.log(name);
+    const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+    const [selectedRating, setSelectedRating] = useState<number | null>(null);
+    const [showFilterModal, setShowFilterModal] = useState(false);
 
     useEffect(() => {
         const fetchBooks = async () => {
             try {
                 const allBooks = await getAllBooks();
 
-                const filtered = allBooks.filter(
+                const categoryBooks = allBooks.filter(
                     (book) => book.category.toLowerCase() === String(name).toLowerCase()
                 );
 
-                setBooks(filtered);
+                setBooks(categoryBooks);
+                setFilteredBooks(categoryBooks);
             } catch (err) {
                 console.error('Error fetching books:', err);
             }
@@ -44,12 +47,37 @@ const CategoryScreen = () => {
         fetchBooks();
     }, [name]);
 
+    const handleFilterByRating = (rating: number | null) => {
+        setSelectedRating(rating);
+        setShowFilterModal(false);
+
+        if (rating === null) {
+            setFilteredBooks(books);
+        } else {
+            let result: Book[] = [];
+            if (rating === 5) {
+
+                result = books.filter((book) => Math.floor(book.rating) === 5);
+            } else {
+                result = books.filter((book) => book.rating >= rating);
+            }
+            setFilteredBooks(result);
+        }
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Books in: {name}</Text>
+            {/* Header with Filter Icon */}
+            <View style={styles.headerRow}>
+                <Text style={styles.header}>Books in: {name}</Text>
+                <TouchableOpacity onPress={() => setShowFilterModal(true)}>
+                    <Icon name="filter-list" size={28} color="#333" />
+                </TouchableOpacity>
+            </View>
 
+            {/* List */}
             <FlatList
-                data={books}
+                data={filteredBooks}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <BookItem
@@ -65,29 +93,106 @@ const CategoryScreen = () => {
                 initialNumToRender={10}
                 maxToRenderPerBatch={10}
                 onEndReachedThreshold={0.5}
-                onEndReached={() => {
-                    console.log('onEndReached');
-                }}
             />
+
+            {/* Modal chọn rating */}
+            <Modal visible={showFilterModal} transparent animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Filter by rating</Text>
+                        <TouchableOpacity
+                            onPress={() => handleFilterByRating(null)}
+                            style={[
+                                styles.ratingOption,
+                                selectedRating === null && styles.selectedOption,
+                            ]}
+                        >
+                            <Text style={styles.optionLabel}>All</Text>
+                        </TouchableOpacity>
+                        {ratingOptions.map((r) => {
+                            const isSelected = selectedRating === r;
+                            return (
+                                <TouchableOpacity
+                                    key={r}
+                                    onPress={() => handleFilterByRating(r)}
+                                    style={[
+                                        styles.ratingOption,
+                                        isSelected && styles.selectedOption
+                                    ]}
+                                >
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Text style={styles.optionLabel}>
+                                            {r === 5 ? '= 5' : `≥ ${r}`}
+                                        </Text>
+                                        <Icon name="star" size={18} color="#FFD700" style={{ marginLeft: 4 }} />
+                                    </View>
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 16, backgroundColor: '#fff' },
-    header: { fontSize: 18, fontWeight: 'bold', marginBottom: 12 },
-    bookItem: {
+    headerRow: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 12,
-        padding: 10,
-        backgroundColor: '#f3f3f3',
-        borderRadius: 8,
     },
-    bookCover: { width: 60, height: 90, borderRadius: 5 },
-    bookInfo: { marginLeft: 15, flex: 1 },
-    bookTitle: { fontSize: 16, fontWeight: 'bold' },
-    bookAuthor: { fontSize: 14, color: '#666' },
+    header: { fontSize: 18, fontWeight: 'bold' },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        width: '50%',
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        elevation: 5,
+
+    },
+    modalTitle: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginBottom: 12,
+        textAlign: 'center',
+    },
+    optionText: {
+        fontSize: 16,
+        paddingVertical: 8,
+        textAlign: 'center',
+        backgroundColor: 'rgba(209, 198, 198, 0.3)',
+        marginBottom: 4,
+        borderRadius: 10,
+
+    },
+    ratingOption: {
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        backgroundColor: 'rgba(209, 198, 198, 0.3)',
+        marginBottom: 6,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+
+    selectedOption: {
+        backgroundColor: '#FFEB99', // Vàng nhạt
+    },
+
+    optionLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 6,
+        color: '#333',
+    },
 });
 
 export default CategoryScreen;
