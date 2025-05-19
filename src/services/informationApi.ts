@@ -5,6 +5,7 @@ const userInformation = {
     phone: '1234567890',
     address: '123 Main St, Anytown, USA',
     avatar: 'https://via.placeholder.com/150',
+    category: ['romance', 'comics', 'inspiration2']
 }
 
 export const getInformation = async () => {
@@ -13,7 +14,7 @@ export const getInformation = async () => {
     return data;
 }
 
-export const updateInformation = async (name: string, username: string, email: string, phone: string, address: string, avatar: string) => {
+export const updateInformation = async (name: string, username: string, email: string, phone: string, address: string, avatar: string, category: string[]) => {
     const data = userInformation
     data.name = name;
     data.username = username;
@@ -21,6 +22,7 @@ export const updateInformation = async (name: string, username: string, email: s
     data.phone = phone;
     data.address = address;
     data.avatar = avatar;
+    data.category = category;
     return data;
 }
 

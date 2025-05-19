@@ -5,7 +5,7 @@ import { getAllBooks } from '../../../src/services/bookApi';
 import BookItem from '../../../src/components/BookItem';
 import { useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/src/store';
-import { getBookMarked } from '@/src/store/userActions';
+import { getAllBook, getBookMarked } from '@/src/store/userActions';
 import { useDispatch } from 'react-redux';
 import { login } from '@/src/store/userActions';
 
@@ -86,7 +86,7 @@ const HomeScreen: React.FC = () => {
             // const email = 'test@gmail.com';
             // const password = '1234567890';
 
-            // dispatch(login(email, password));
+            dispatch(getAllBook());
             dispatch(getBookMarked('1111'));
             // const bookMarked = useSelector((state: RootState) => state.user.bookMarked);
             // setBookMarked(bookMarked);

@@ -1,24 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { StringifyConfig } from "expo-router/build/fork/getPathFromState";
 
-interface BookMarked {
-    id: string;
-    title: string;
-    author: string;
-    isBookMarked: boolean;
-}
+
 
 const initialState = {
     token: null,
+    book: [] as { id: string, title: string, author: string, category: string, cover: string, description: string, rating: number, ratingAmount: number, reviewAmount: number }[],
     bookMarked: [] as { id: string, title: string, author: string }[],
     isBookMarkedLoaded: false,
-    userInformation: {} as { name: string, username: string, email: string, phone: string, address: string, avatar: string }
+    userInformation: {} as { name: string, username: string, email: string, phone: string, address: string, avatar: string },
+    comment: [] as { avatar: string, book_id: string, user_name: string, text: string, date: string, like_count: number, rating: number }[]
 }
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setAllBook: (state, action) => {
+            state.book = action.payload;
+        },
         setToken: (state, action) => {
             state.token = action.payload;
         },
@@ -44,9 +44,13 @@ const userSlice = createSlice({
         setUserInformation: (state, action) => {
             state.userInformation = action.payload;
         },
+        setComment: (state, action) => {
+            state.comment = action.payload;
+        },
+
     },
 });
 
-export const { setToken, removeToken, setBookMarked, toggleBookMarked, setUserInformation } = userSlice.actions;
+export const { setToken, removeToken, setBookMarked, toggleBookMarked, setUserInformation, setComment, setAllBook } = userSlice.actions;
 export default userSlice.reducer;
 

@@ -3,11 +3,15 @@ import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/Feather';
 
-const ExpandComment: React.FC = () => {
+type ExpandCommentProps = {
+    id: string;
+}
+
+const ExpandComment: React.FC<ExpandCommentProps> = ({ id }) => {
     const router = useRouter();
 
     const handleBack = () => {
-        router.push({ pathname: "/book/reviewDetail/[id]", params: { id: 1 } })
+        router.push({ pathname: "/home/book/reviewDetail/[id]", params: { id: id, } })
     };
 
     return (

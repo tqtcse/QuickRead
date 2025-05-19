@@ -102,7 +102,7 @@ const booksData = [
         "id": "ROM0017",
         "title": "Sunset Kisses",
         "author": "Noah Walker",
-        "category": "inspiration",
+        "category": "inspiration2",
         "cover": "http://example.com/sunsetkisses.jpg",
         "description": "A summer romance that lingers long after the sun sets.",
         "rating": 4.5,
@@ -110,6 +110,8 @@ const booksData = [
         "reviewAmount": 60
     },
 ]
+
+const category = ['romance', 'comics', 'inspiration2']
 
 const booksOfUser = [
     {
@@ -119,11 +121,40 @@ const booksOfUser = [
     }
 ]
 
-const booksOfUser2 = [
+const bookById = [
     {
-
+        id: "ROM001",
+        title: "Love in Paris",
+        author: "Sophie Lane",
+        category: "romance",
+        cover: "http://example.com/loveinparis.jpg",
+        description: "A heartwarming romance set in the city of love.",
+        rating: 4.2,
+        ratingAmount: 120,
+        reviewAmount: 45
     }
-]
+];
+
+const comment = [
+    {
+        avatar: "https://via.placeholder.com/150",
+        book_id: "ROM001",
+        user_name: "John Doe",
+        text: "This is a comment s",
+        date: "2023-10-15T10:00:00.000+00:00",
+        like_count: 10,
+        rating: 5
+    },
+    {
+        avatar: "https://via.placeholder.com/150",
+        book_id: "ROM001",
+        user_name: "John Doe",
+        text: "This is a comment s",
+        date: "2023-10-15T10:00:00.000+00:00",
+        like_count: 10,
+        rating: 5
+    }
+];
 
 export const getAllBooks = async () => {
     try {
@@ -158,4 +189,20 @@ export const updateBookMarked = async (id: string) => {
         console.error('Error fetching books:', error);
         throw error;
     }
+}
+
+export const getBookById = async (id: string) => {
+    try {
+        const data = booksData.find(book => book.id === id);
+        return data;
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        throw error;
+    }
+}
+
+export const getCommentById = async (id: string) => {
+    const data = comment
+    console.log('data:', data);
+    return data;
 }
