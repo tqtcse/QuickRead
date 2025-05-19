@@ -119,6 +119,12 @@ const booksOfUser = [
     }
 ]
 
+const booksOfUser2 = [
+    {
+
+    }
+]
+
 export const getAllBooks = async () => {
     try {
         // const response = await fetch('https://api.example.com/books');
@@ -143,3 +149,13 @@ export const getBookByUserId = async (id: string) => {
     }
 }
 
+export const updateBookMarked = async (id: string) => {
+    try {
+        const id2 = id;
+        const data = booksOfUser;
+        return data;
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        throw error;
+    }
+}

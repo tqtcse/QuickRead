@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
     sectionHeader: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginTop: 15,
+        textAlign: 'center',
         marginBottom: 5,
         backgroundColor: '#fff',
-        padding: 8,
+        padding: 5,
         borderRadius: 5,
     },
     bookItem: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     moreIcon: {
-        top: 8,
+
         fontSize: 18,
         fontWeight: 'bold',
         color: 'gray', // màu xanh dương cho biểu tượng

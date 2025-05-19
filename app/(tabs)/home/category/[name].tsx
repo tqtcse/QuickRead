@@ -4,6 +4,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getAllBooks } from '@/src/services/bookApi';
 import BookItem from '@/src/components/BookItem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
 
 type Book = {
     id: string;
@@ -20,7 +22,7 @@ type Book = {
 const ratingOptions = [5, 4, 3, 2, 1];
 
 const CategoryScreen = () => {
-
+    const bookMarked = useSelector((state: RootState) => state.user.bookMarked);
     const { name } = useLocalSearchParams();
     const router = useRouter();
     const [books, setBooks] = useState<Book[]>([]);
@@ -82,6 +84,7 @@ const CategoryScreen = () => {
                 renderItem={({ item }) => (
                     <BookItem
                         item={item}
+                        isBookMarked={bookMarked?.some(book => book.id === item.id)}
                         onPress={() =>
                             router.push({
                                 pathname: '/home/book/[id]',

@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Platform, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/src/store';
 
 
 const PersonalInfo = () => {
+
+    const { userInformation } = useSelector((state: RootState) => state.user);
+
     const [avatar, setAvatar] = useState<string | null>(null);
     const [fullName, setFullName] = useState('');
     const [username, setUsername] = useState('');
@@ -12,6 +17,20 @@ const PersonalInfo = () => {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [address, setAddress] = useState('');
 
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        setFullName(userInformation.name);
+        setUsername(userInformation.username);
+        setEmail(userInformation.email);
+        setPhoneNumber(userInformation.phone);
+        setAddress(userInformation.address);
+    }, [userInformation]);
+
+    const updateInformation = () => {
+        console.log('updateInformation');
+        // dispatch(updateInformation(fullName, username, email, phoneNumber, address, avatar));
+    }
 
     const pickImage = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -53,12 +72,14 @@ const PersonalInfo = () => {
                         placeholder="Full Name"
                         value={fullName}
                         onChangeText={setFullName}
+                        onBlur={updateInformation}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Username"
                         value={username}
                         onChangeText={setUsername}
+                        onBlur={updateInformation}
                     />
                     <TextInput
                         style={styles.input}
@@ -66,6 +87,7 @@ const PersonalInfo = () => {
                         keyboardType="email-address"
                         value={email}
                         onChangeText={setEmail}
+                        onBlur={updateInformation}
                     />
                     <TextInput
                         style={styles.input}
@@ -73,18 +95,21 @@ const PersonalInfo = () => {
                         keyboardType="phone-pad"
                         value={phoneNumber}
                         onChangeText={setPhoneNumber}
+                        onBlur={updateInformation}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Date of Birth (YYYY-MM-DD)"
                         value={dateOfBirth}
                         onChangeText={setDateOfBirth}
+                        onBlur={updateInformation}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Address"
                         value={address}
                         onChangeText={setAddress}
+                        onBlur={updateInformation}
                     />
                 </View>
 

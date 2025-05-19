@@ -1,15 +1,23 @@
+import { toggleBookMarked } from '@/src/store/userActions';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/src/store';
 
-const WantToReadButton = ({ isBookMarked }: { isBookMarked: boolean }) => {
+const WantToReadButton = ({ isBookMarked, id }: { isBookMarked: boolean, id: string }) => {
+    const dispatch = useDispatch<AppDispatch>();
     const [wantToRead, setWantToRead] = useState(isBookMarked);
 
     // Cập nhật state nếu prop thay đổi
     useEffect(() => {
+
         setWantToRead(isBookMarked);
     }, [isBookMarked]);
 
     const handlePress = () => {
+        console.log('id:', id);
+        console.log('isBookMarked:', isBookMarked);
+        dispatch(toggleBookMarked(id));
         setWantToRead((prev) => !prev);
         // Bạn có thể gọi API hoặc dispatch Redux ở đây nếu muốn cập nhật server
     };

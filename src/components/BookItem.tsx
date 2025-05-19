@@ -70,7 +70,8 @@ const BookItem = React.memo(({ item, onPress, isBookMarked }: Props) => (
 
             {/* 📚 Nút muốn đọc */}
             <View style={styles.buttonContainer}>
-                <WantToReadButton isBookMarked={isBookMarked} />
+                <WantToReadButton isBookMarked={isBookMarked} id={item.id} />
+
             </View>
         </View>
     </TouchableOpacity>

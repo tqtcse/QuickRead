@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/src/store';
+import { getUserInformation } from '@/src/store/userActions';
+import { useSelector } from 'react-redux';
 
 import { useAuth } from '@/app/context/auth-context';
 
 const Profile: React.FC = () => {
 
+    const dispatch = useDispatch<AppDispatch>();
+    const { userInformation } = useSelector((state: RootState) => state.user);
+
     const { logout } = useAuth();
+
+    useEffect(() => {
+        dispatch(getUserInformation());
+    }, []);
 
     const handlePersonalInfo = () => {
         router.push('/(tabs)/profile/personalInfo');
@@ -17,6 +28,8 @@ const Profile: React.FC = () => {
         logout();
 
     };
+
+    console.log('userInformation:', userInformation);
 
     return (
         <View style={styles.container}>
@@ -28,8 +41,8 @@ const Profile: React.FC = () => {
                 />
                 <View style={styles.profileTextContainer}>
                     <View style={styles.profileText}>
-                        <Text style={styles.name}>John Doe</Text>
-                        <Text style={styles.email}>johndoe@example.com</Text>
+                        <Text style={styles.name}>{userInformation.name}</Text>
+                        <Text style={styles.email}>{userInformation.email}</Text>
                     </View>
 
                 </View>
