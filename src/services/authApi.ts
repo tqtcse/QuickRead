@@ -17,6 +17,7 @@ export const login = async (username: string, password: string) => {
     console.log(username, password);
     try {
         const response = await axios.post(`${API_URL}/login`, { username, password });
+        console.log("response111", response.data);
         if (response.data.token) {
             return response.data.token;
         }
@@ -30,6 +31,7 @@ export const login = async (username: string, password: string) => {
 export const register = async (username: string, email: string, password: string, confirmPassword: string, country: string, date_of_birth: string, fullname: string, phone_number: string, avatar: string, gender: string, genres: string[]) => {
     try {
         const response = await axios.post(`${API_URL}/register`, { username, email, password, confirmPassword, country, date_of_birth, fullname, phone_number, avatar, gender, genres });
+        console.log("response222", response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);

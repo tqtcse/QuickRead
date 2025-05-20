@@ -31,6 +31,7 @@ const CreateAccount = () => {
         dispatch(setRegisterData({ username: username, email: email, password: password, confirmPassword: confirmPassword }));
         console.log(registerData);
         const response = await register(username, email, password, confirmPassword, registerData.country, registerData.date_of_birth, registerData.fullname, registerData.phone_number, registerData.avatar, registerData.gender, registerData.genres);
+        console.log("response333", response);
         if (response) {
             router.push('/(auth)/login');
         }

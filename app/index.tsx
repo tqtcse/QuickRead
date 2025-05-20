@@ -14,9 +14,9 @@ export default function IndexPage() {
         const checkLogin = async () => {
             const token = await AsyncStorage.getItem('token');
             if (token) {
-                router.replace('/(tabs)/home/home'); // ✅ Trang home có tab layout
+                router.replace('/(tabs)/home/home');
             } else {
-                router.replace('/(onboarding)/onboarding1'); // ✅ Trang login không có tab layout
+                router.replace('/(onboarding)/onboarding1');
             }
         };
 

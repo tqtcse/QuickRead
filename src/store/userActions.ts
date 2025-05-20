@@ -24,8 +24,9 @@ export const getAllBook = () => async (dispatch: AppDispatch) => {
 export const login = (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         const response = await loginApi(email, password);
+
         if (response) {
-            dispatch(setToken(response.token));
+            dispatch(setToken(response));
         }
     } catch (error) {
         console.error('Error fetching users:', error);
