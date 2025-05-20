@@ -5,7 +5,7 @@ const booksData = [
         "author": "Sophie Lane",
         "category": "romance",
         "cover": "http://example.com/loveinparis.jpg",
-        "description": "A heartwarming romance set in the city of love.",
+        "description": "A heartwarming romance set in the city of love.  This is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the book.",
         "rating": 4.2,
         "ratingAmount": 120,
         "reviewAmount": 45
@@ -140,7 +140,7 @@ const comment = [
         avatar: "https://via.placeholder.com/150",
         book_id: "ROM001",
         user_name: "John Doe",
-        text: "This is a comment s",
+        text: "This is a comment This is a test description for the bookThis is a test descrThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookiption for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the bookThis is a test description for the books",
         date: "2023-10-15T10:00:00.000+00:00",
         like_count: 10,
         rating: 5
@@ -152,7 +152,7 @@ const comment = [
         text: "This is a comment s",
         date: "2023-10-15T10:00:00.000+00:00",
         like_count: 10,
-        rating: 5
+        rating: 1
     }
 ];
 

@@ -9,14 +9,32 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useDispatch } from 'react-redux';
+import { setRegisterData } from '@/src/store/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
+import { register } from '@/src/services/authApi';
 
 const CreateAccount = () => {
+    const dispatch = useDispatch();
+    const registerData = useSelector((state: RootState) => state.user.registerData);
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+
+
+    const handleCreateAccount = async () => {
+        dispatch(setRegisterData({ username: username, email: email, password: password, confirmPassword: confirmPassword }));
+        console.log(registerData);
+        const response = await register(username, email, password, confirmPassword, registerData.country, registerData.date_of_birth, registerData.fullname, registerData.phone_number, registerData.avatar, registerData.gender, registerData.genres);
+        if (response) {
+            router.push('/(auth)/login');
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -72,7 +90,7 @@ const CreateAccount = () => {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => router.push('/(auth)/login')}>
+            <TouchableOpacity style={styles.button} onPress={handleCreateAccount}>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>

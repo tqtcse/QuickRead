@@ -1,26 +1,21 @@
-require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-
+const authRoutes = require('./routes/auth');
 const app = express();
+const connectDB = require('./config/db');
+const { SERVER_PORT } = require('./config/env');
+
 app.use(cors());
-app.use(bodyParser.json());
 
-// Kết nối MySQL
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    port: process.env.DB_PORT,
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+connectDB();
+
+app.use('/api/auth', authRoutes);
+
+app.listen(SERVER_PORT, () => {
+    console.log(`Server is running on port ${SERVER_PORT}`);
 });
 
-db.connect(err => {
-    if (err) {
-        console.error(' Lỗi kết nối MySQL:', err);
-        return;
-    }
-    console.log(' Kết nối MySQL thành công!');
-});

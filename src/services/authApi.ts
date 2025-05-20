@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+const API_URL = 'http://localhost:3000/api/auth';
+
 export const logout = async () => {
     try {
 
@@ -9,13 +13,26 @@ export const logout = async () => {
     }
 };
 
-export const login = async (email: string, password: string) => {
+export const login = async (username: string, password: string) => {
+    console.log(username, password);
     try {
-        // const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
-        const response = { data: { token: '12345678901' } }
+        const response = await axios.post(`${API_URL}/login`, { username, password });
+        if (response.data.token) {
+            return response.data.token;
+        }
+        return null;
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return null;
+    }
+};
+
+export const register = async (username: string, email: string, password: string, confirmPassword: string, country: string, date_of_birth: string, fullname: string, phone_number: string, avatar: string, gender: string, genres: string[]) => {
+    try {
+        const response = await axios.post(`${API_URL}/register`, { username, email, password, confirmPassword, country, date_of_birth, fullname, phone_number, avatar, gender, genres });
         return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);
-        throw error;
+        return null;
     }
 };

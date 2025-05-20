@@ -9,7 +9,21 @@ const initialState = {
     bookMarked: [] as { id: string, title: string, author: string }[],
     isBookMarkedLoaded: false,
     userInformation: {} as { name: string, username: string, email: string, phone: string, address: string, avatar: string },
-    comment: [] as { avatar: string, book_id: string, user_name: string, text: string, date: string, like_count: number, rating: number }[]
+    comment: [] as { avatar: string, book_id: string, user_name: string, text: string, date: string, like_count: number, rating: number }[],
+    registerData: {
+        fullname: '',
+        username: '',
+        email: '',
+        phone_number: '',
+        date_of_birth: '',
+        address: '',
+        avatar: '',
+        gender: '',
+        genres: [],
+        password: '',
+        confirmPassword: '',
+        country: ''
+    },
 }
 
 const userSlice = createSlice({
@@ -47,10 +61,13 @@ const userSlice = createSlice({
         setComment: (state, action) => {
             state.comment = action.payload;
         },
+        setRegisterData: (state, action) => {
+            state.registerData = { ...state.registerData, ...action.payload }
+        }
 
     },
 });
 
-export const { setToken, removeToken, setBookMarked, toggleBookMarked, setUserInformation, setComment, setAllBook } = userSlice.actions;
+export const { setToken, removeToken, setBookMarked, toggleBookMarked, setUserInformation, setComment, setAllBook, setRegisterData } = userSlice.actions;
 export default userSlice.reducer;
 

@@ -14,6 +14,8 @@ import { AppDispatch, RootState } from '@/src/store';
 import { login } from '@/src/store/userActions';
 
 const Login = () => {
+    const token = useSelector((state: RootState) => state.user.token);
+
     const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,12 +23,11 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = () => {
-        const email = 'test@gmail.com';
-        const password = '1234567890';
 
         dispatch(login(email, password));
-
-        router.push('/(tabs)/home/home')
+        if (token) {
+            router.push('/(tabs)/home/home')
+        }
     }
 
     return (

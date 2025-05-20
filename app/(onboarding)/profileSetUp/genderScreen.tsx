@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { router } from 'expo-router';
-
+import { useDispatch } from 'react-redux';
+import { setRegisterData } from '@/src/store/userSlice';
 const { width, height } = Dimensions.get('window');
 
 const GenderScreen = () => {
     const [selectedGender, setSelectedGender] = useState<string | null>(null);
+    const dispatch = useDispatch();
 
     const genders = [
         { label: 'I am male', value: 'male' },
         { label: 'I am female', value: 'female' },
         { label: 'Rather not to say', value: 'none' },
     ];
+
+    const handleContinue = () => {
+        dispatch(setRegisterData({ gender: selectedGender }));
+        router.push('/(onboarding)/profileSetUp/bookGenreScreen');
+    }
 
     return (
         <View style={styles.container}>
@@ -42,7 +49,7 @@ const GenderScreen = () => {
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => router.push('/(onboarding)/profileSetUp/ageScreen')}
+                onPress={handleContinue}
                 disabled={!selectedGender}
             >
                 <Text style={styles.buttonText}>Continue</Text>

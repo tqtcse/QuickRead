@@ -13,15 +13,8 @@ interface Comment {
     date: string;
     like: number;
     rating: number;
+    book_id: string; // Thêm book_id để lọc comment theo sách
 }
-
-interface RateDetail {
-    [key: number]: { count: number; comments: Comment[] };
-}
-
-
-
-
 
 const ReviewDetail: React.FC = () => {
     const { id } = useLocalSearchParams();
@@ -30,8 +23,6 @@ const ReviewDetail: React.FC = () => {
     const comment = useSelector((state: RootState) => state.user.comment);
 
     const book = bookData.find((b) => b.id === id) || bookData[0];
-
-
 
     const calculatePercentage = (rating: number) => {
         const count = comment.filter(c => c.rating === rating && c.book_id === book.id).length;
@@ -42,34 +33,37 @@ const ReviewDetail: React.FC = () => {
     const getSortedComments = () => {
         return comment
             .filter(c => c.book_id === book.id)
+            // Lọc comment theo selectedRating nếu có
+            .filter(c => selectedRating === null || c.rating === selectedRating)
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     };
 
     const sortedComments = getSortedComments();
 
-    console.log('sortedComments', sortedComments);
-
-
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.innerContainer}>
                 <View style={styles.rateDetailContainer}>
-                    <TouchableOpacity >
-                        <Text style={{ marginTop: 10, fontWeight: 'bold' }}>Community Reviews</Text>
+                    <Text style={{ marginTop: 10, fontWeight: 'bold' }}>Community Reviews</Text>
+                    <View>
                         {[5, 4, 3, 2, 1].map((rating) => {
                             const percentage = calculatePercentage(rating);
                             const count = comment.filter(c => c.rating === rating && c.book_id === book.id).length;
                             return (
-                                <View key={rating} style={styles.rateRow}>
+                                <TouchableOpacity
+                                    key={rating}
+                                    onPress={() => setSelectedRating(selectedRating === rating ? null : rating)}
+                                    style={styles.rateRow}
+                                >
                                     <Text style={styles.starText}>{rating} Star</Text>
                                     <View style={styles.barContainer}>
                                         <View style={[styles.bar, { width: `${percentage}%` }]} />
                                     </View>
                                     <Text style={styles.rateCount}>{count} reviews</Text>
-                                </View>
+                                </TouchableOpacity>
                             );
                         })}
-                    </TouchableOpacity>
+                    </View>
                 </View>
 
                 <View style={styles.commentListWrapper}>

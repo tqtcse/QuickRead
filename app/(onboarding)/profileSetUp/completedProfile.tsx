@@ -2,19 +2,40 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Platform, Dimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
+import { useDispatch } from 'react-redux';
+import { setRegisterData } from '@/src/store/userSlice';
 
 const { height } = Dimensions.get('window');
 
 const CompletedProfile = () => {
+    const dispatch = useDispatch();
+    const [dateOfBirth, setDateOfBirth] = useState('');
     const [fullName, setFullName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
     const [country, setCountry] = useState('');
     const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
+    // Hàm định dạng ngày sinh
+    const formatDateOfBirth = (text: string) => {
+        // Loại bỏ các ký tự không phải số
+        const cleaned = text.replace(/[^0-9]/g, '');
+
+        // Kiểm tra độ dài chuỗi
+        if (cleaned.length <= 8) {
+            let formatted = cleaned;
+            if (cleaned.length > 2) {
+                formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+            }
+            if (cleaned.length > 4) {
+                formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(4)}`;
+            }
+            setDateOfBirth(formatted);
+        }
+    };
+
     const pickImage = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (permissionResult.granted === false) {
+        if (!permissionResult.granted) {
             alert('Permission to access camera roll is required!');
             return;
         }
@@ -31,12 +52,21 @@ const CompletedProfile = () => {
         }
     };
 
+    const handleUpdate = () => {
+        // Kiểm tra định dạng ngày sinh trước khi dispatch
+        const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+        if (!dateRegex.test(dateOfBirth)) {
+            alert('Please enter a valid date of birth (DD/MM/YYYY)');
+            return;
+        }
+        dispatch(setRegisterData({ avatar: avatarUri, phone_number: phoneNumber, address: country, fullname: fullName, date_of_birth: dateOfBirth }));
+        router.push('/(onboarding)/profileSetUp/createAccount');
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Complete your profile</Text>
-            <Text style={styles.subtitle}>
-                Only you can see your personal data.
-            </Text>
+            <Text style={styles.subtitle}>Only you can see your personal data.</Text>
 
             <TouchableOpacity style={styles.avatarWrapper} onPress={pickImage}>
                 {avatarUri ? (
@@ -64,9 +94,11 @@ const CompletedProfile = () => {
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Date of Birth (YYYY-MM-DD)"
+                    placeholder="Date of Birth (DD/MM/YYYY)"
                     value={dateOfBirth}
-                    onChangeText={setDateOfBirth}
+                    onChangeText={formatDateOfBirth}
+                    keyboardType="numeric"
+                    maxLength={10} // Giới hạn độ dài: DD/MM/YYYY
                 />
                 <TextInput
                     style={styles.input}
@@ -76,8 +108,8 @@ const CompletedProfile = () => {
                 />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => router.push('/(onboarding)/profileSetUp/createAccount')}>
-                <Text style={styles.buttonText}>Update</Text>
+            <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+                <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
         </View>
     );

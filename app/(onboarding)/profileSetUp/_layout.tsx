@@ -9,7 +9,6 @@ const AppsLayout: React.FC = () => {
 
     const steps = [
         '/profileSetUp/genderScreen',
-        '/profileSetUp/ageScreen',
         '/profileSetUp/bookGenreScreen',
         '/profileSetUp/completedProfile',
         '/profileSetUp/createAccount',

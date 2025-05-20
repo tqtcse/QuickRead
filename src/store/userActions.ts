@@ -1,5 +1,5 @@
 import { AppDispatch } from "./index";
-import { setToken, removeToken, setBookMarked, setUserInformation, setComment, setAllBook } from "./userSlice";
+import { setToken, removeToken, setBookMarked, setUserInformation, setComment, setAllBook, setRegisterData } from "./userSlice";
 import { login as loginApi } from "../services/authApi";
 import { getBookByUserId } from "../services/bookApi";
 import { toggleBookMarked as toggle } from "./userSlice";
@@ -19,10 +19,14 @@ export const getAllBook = () => async (dispatch: AppDispatch) => {
     }
 }
 
+
+
 export const login = (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         const response = await loginApi(email, password);
-        dispatch(setToken(response.token));
+        if (response) {
+            dispatch(setToken(response.token));
+        }
     } catch (error) {
         console.error('Error fetching users:', error);
         throw error;
@@ -64,7 +68,7 @@ export const getUserInformation = () => async (dispatch: AppDispatch) => {
 
 export const updateInformation = (name: string, username: string, email: string, phone: string, address: string, avatar: string) => async (dispatch: AppDispatch) => {
     try {
-        const response = await updateInformationApi(name, username, email, phone, address, avatar);
+        const response = await updateInformationApi(name, username, email, phone, address, avatar, category);
         dispatch(setUserInformation(response));
     } catch (error) {
         console.error('Error updating user information:', error);

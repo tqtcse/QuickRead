@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { router } from 'expo-router';
-
+import { useDispatch } from 'react-redux';
+import { setRegisterData } from '@/src/store/userSlice';
 const { width, height } = Dimensions.get('window');
 
 const BookGenreScreen = () => {
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+    const dispatch = useDispatch();
 
     const genres = [
         { label: 'Romance', value: 'romance' },
@@ -29,6 +31,11 @@ const BookGenreScreen = () => {
             setSelectedGenres((prev) => [...prev, value]);
         }
     };
+
+    const handleContinue = () => {
+        dispatch(setRegisterData({ genres: selectedGenres }));
+        router.push('/(onboarding)/profileSetUp/completedProfile');
+    }
 
     return (
         <View style={styles.container}>
@@ -66,13 +73,13 @@ const BookGenreScreen = () => {
                         styles.button,
                         { opacity: selectedGenres.length > 0 ? 1 : 0.5 },
                     ]}
-                    onPress={() => router.push('/(onboarding)/profileSetUp/completedProfile')}
+                    onPress={handleContinue}
                     disabled={selectedGenres.length === 0}
                 >
                     <Text style={styles.buttonText}>Continue</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => router.push('/(onboarding)/profileSetUp/completedProfile')}>
+                <TouchableOpacity onPress={handleContinue}>
                     <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity>
             </View>
