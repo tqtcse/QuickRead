@@ -1,6 +1,6 @@
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/user.model');
 const { SECRET_KEY } = require('../config/env');
 
 console.log(SECRET_KEY);

@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   fullname: { type: String, maxlength: 100 },
   username: { type: String, maxlength: 50, unique: true },
-  email: { type: String, maxlength: 100, required: true, unique: true },
+  email: {
+    type: String, maxlength: 100, required: true, unique: true, trim: true,
+    match: [/\S+@\S+\.\S+/, 'Email is invalid']
+  },
   phone_number: { type: String, maxlength: 20 },
   date_of_birth: { type: Date },
   address: { type: String, maxlength: 255 },
