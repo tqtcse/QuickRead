@@ -23,6 +23,18 @@ router.post('/', async (req, res) => {
 });
 
 
+router.get('/', async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error('Lỗi lấy danh mục:', error);
+    res.status(500).json({ message: 'Lỗi server' });
+  }
+});
+
+
+
 
 
 module.exports = router;

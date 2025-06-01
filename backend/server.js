@@ -12,9 +12,13 @@ const userBookStatusRouter = require('./routes/userBookStatus.routes');
 const userCategoryRouter = require('./routes/userCategory.routes');
 const userLikeCommentsRouter = require('./routes/userLikeComments.routes');
 const path = require('path');
-app.use(cors());
-app.use('/img', express.static(path.join(__dirname, 'img')));
 app.use(express.json());
+app.use(cors({
+    origin: '*',
+    credentials: true
+}));
+app.use('/img', express.static(path.join(__dirname, 'img')));
+
 app.use(express.urlencoded({ extended: true }));
 
 
