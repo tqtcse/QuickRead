@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
+const Category = require('../models/category.model')
 const { verifyToken } = require('../middlewares/authMiddleware');
 const multer = require('multer');
 const path = require('path');
@@ -174,6 +175,31 @@ router.post('/upload-avatar', verifyToken, upload.single('avatar'), async (req, 
   }
 });
 
+// API thêm category
+router.put('/add-category', verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { categoryId } = req.body;
 
+    if (!categoryId) {
+      return res.status(400).json({ message: 'categoryId là bắt buộc' });
+    }
+
+    // Cập nhật: thêm categoryId nếu chưa có trong mảng
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { category_reference: categoryId } }, // addToSet đảm bảo không thêm trùng
+      { new: true }
+    ).populate('category_reference', 'name'); // nếu muốn trả về info category luôn
+
+    res.status(200).json({
+      message: 'Đã thêm category vào user',
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error('Error adding category to user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 module.exports = router;

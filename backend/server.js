@@ -11,6 +11,8 @@ const categoryRouter = require('./routes/category.routes');
 const userBookStatusRouter = require('./routes/userBookStatus.routes');
 const userCategoryRouter = require('./routes/userCategory.routes');
 const userLikeCommentsRouter = require('./routes/userLikeComments.routes');
+const commentPostRouter = require('./routes/commentPost.routes');
+const postRouter = require('./routes/post.routes');
 const path = require('path');
 app.use(cors());
 app.use('/img', express.static(path.join(__dirname, 'img')));
@@ -22,6 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 connectDB();
+app.use('/api/comment-post', commentPostRouter);
+app.use('/api/posts', postRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/users', userRouter);
 app.use('/api/comments', commentRouter);

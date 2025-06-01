@@ -13,8 +13,14 @@ const userSchema = new mongoose.Schema({
   rule: { type: String, enum: ['user', 'admin'], default: 'user' },
   gender: { type: String, enum: ['male', 'female', 'other'] },
   password: { type: String, required: true },
+  category_reference: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category' // giả sử bạn có model Category
+  }]
 }, {
   timestamps: true
 });
+
+
 
 module.exports = mongoose.model('User', userSchema);

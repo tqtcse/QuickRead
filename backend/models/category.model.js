@@ -5,6 +5,5 @@ const categorySchema = new mongoose.Schema({
   }, {
     timestamps: false
   });
-  
 
 module.exports = mongoose.model('Category', categorySchema);
