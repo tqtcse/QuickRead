@@ -37,7 +37,7 @@ app.use('/api/user-categories', userCategoryRouter);
 app.use('/api/userLikeComments', userLikeCommentsRouter);
 
 
-app.listen(SERVER_PORT, () => {
+app.listen(SERVER_PORT, '0.0.0.0' ,() => {
     console.log(`Server is running on port ${SERVER_PORT}`);
 });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import LikeButton from './Button/LikeButton';
 import ExpandableText from './ExpandText';
-
+import { API_URL } from '@/src/config/env';
 
 
 
@@ -26,7 +26,15 @@ const CommentItem: React.FC<CommentItemProps> = ({ item }) => {
     return (
         <View style={styles.commentContainer}>
             <View style={styles.headerComment}>
-                <Image source={{ uri: `http://localhost:3000${item.user_id.avatar_url}` }} style={styles.avatar} />
+                {/* <Image source={{ uri: `${API_URL}${item.user_id.avatar_url}` }} style={styles.avatar} /> */}
+                <Image
+                                    source={
+                                        item.user_id.avatar_url
+                                            ? { uri: `${API_URL}${item.user_id.avatar_url}` }
+                                            : require('@/assets/images/user.jpg')
+                                    }
+                                    style={styles.avatar}
+                                />
                 <View style={{ flex: 1 }}>
                     <Text>
                         <Text style={styles.commentUser}>{item.user_id.username}</Text> rated it{' '}

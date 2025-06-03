@@ -44,9 +44,17 @@ const Profile: React.FC = () => {
         <View style={styles.container}>
             {/* Container 1: Avatar + Name + Email + Edit icon */}
             <View style={styles.profileHeader}>
-                <Image
+                {/* <Image
                     source={{ uri: user.avatar_url ? `${API_URL}${user.avatar_url}?t=${Date.now()}` : require('@/assets/images/user.jpg') }}
 
+                    style={styles.avatar}
+                /> */}
+                <Image
+                    source={
+                        user.avatar_url
+                            ? { uri: `${API_URL}${user.avatar_url}?t=${Date.now()}` }
+                            : require('@/assets/images/user.jpg')
+                    }
                     style={styles.avatar}
                 />
                 <View style={styles.profileTextContainer}>

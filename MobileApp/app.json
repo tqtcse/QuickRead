@@ -21,7 +21,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.MobileApp"
+      "package": "com.anonymous.MobileApp1"
     },
     "web": {
       "bundler": "metro",
@@ -39,8 +39,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "b79d0ea4-2d08-4377-a0db-d709d47f0a1a"
+        "projectId": "ac4f4922-7e9a-4424-aad2-5bd19ed3133c"
       }
-    }
+    },
+    "owner": "nguyentankl2003"
   }
 }
